@@ -5,26 +5,23 @@
  */
 package org.una.unaeropuertoclient.controller;
 
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import org.una.unaeropuertoclient.utils.FlowController;
 
 /**
  * FXML Controller class
  *
- * @author Roberth :)
+ * @author roberth :)
  */
-public class LoginController extends Controller implements Initializable {
+public class MenuSuperiorController extends Controller implements Initializable {
 
     @FXML
-    public JFXTextField txtCedula;
-    @FXML
-    public JFXPasswordField txtContrasenna;
+    public Label lblUsuarioLogeado;
 
     /**
      * Initializes the controller class.
@@ -42,16 +39,8 @@ public class LoginController extends Controller implements Initializable {
     }
 
     @FXML
-    public void onActionSalir(ActionEvent event) {
-        this.getStage().close();
-    }
-
-    @FXML
-    public void onActionIngresar(ActionEvent event) {
-        FlowController.getInstance().goMain();
-        FlowController.getInstance().goView("MenuPrincipal");
-        FlowController.getInstance().goView("MenuSuperior", "Top", null);
-        this.getStage().close();
+    public void OnActionGoBack(ActionEvent event) {
+        FlowController.getInstance().goBack();
     }
 
 }
