@@ -17,7 +17,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FlowController.getInstance().InitializeFlow(stage, null);
-        FlowController.getInstance().goMain();
+        FlowController.getInstance().goViewInWindow("Login", Boolean.FALSE);
     }
 
     public static void main(String[] args) {
