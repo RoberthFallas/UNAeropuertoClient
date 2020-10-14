@@ -5,14 +5,10 @@
  */
 package org.una.unaeropuertoclient.model;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import javafx.beans.property.SimpleObjectProperty;
+import java.time.LocalDateTime;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.una.unaeropuertoclient.utils.DateConverter;
 
 /**
@@ -24,18 +20,13 @@ import org.una.unaeropuertoclient.utils.DateConverter;
 public class RolUsuarioDto {
 
     private Long id;
-    @XmlTransient
-    public SimpleObjectProperty<LocalDate> fechaRegistro;
-    @XmlTransient
-    public SimpleObjectProperty<LocalDate> fechaModificacion;
+    private LocalDateTime fechaRegistro;
+    private LocalDateTime fechaModificacion;
     private Boolean activo;
     private RolDto rolesId;
 
     public RolUsuarioDto() {
-        fechaModificacion = new SimpleObjectProperty();
-        fechaModificacion.set(LocalDate.now());
-        fechaRegistro = new SimpleObjectProperty();
-        fechaRegistro.set(LocalDate.now());
+
     }
 
     public Long getId() {
@@ -46,23 +37,20 @@ public class RolUsuarioDto {
         this.id = id;
     }
 
-    public Date getFechaRegistro() {
-        Date date = Date.from(fechaRegistro.get().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return date;
-
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;              //Posible error con spring al enviar dato por lo del formato chorizo
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
-        this.fechaRegistro.set(fechaRegistro.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    public void setFechaRegistro(String fechaRegistro) {
+        this.fechaRegistro = DateConverter.toLocalDateTime(fechaRegistro);
     }
 
-    public Date getFechaModificacion() {
-        Date date = Date.from(fechaRegistro.get().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return date;
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;          //Posible error con spring al enviar dato por lo del formato chorizo
     }
 
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion.set(fechaModificacion.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = DateConverter.toLocalDateTime(fechaModificacion);
     }
 
     public Boolean getActivo() {
