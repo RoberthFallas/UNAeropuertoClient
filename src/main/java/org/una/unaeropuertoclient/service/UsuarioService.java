@@ -17,7 +17,8 @@ import org.una.unaeropuertoclient.utils.Respuesta;
  * @author LordLalo
  */
 public class UsuarioService {
-     public Respuesta logIn(String cedula, String password) {
+
+    public Respuesta logIn(String cedula, String password) {
         AuthenticationRequest autRiq = new AuthenticationRequest(cedula, password);
         try {
             Request request = new Request("/autenticacion/login");

@@ -6,9 +6,8 @@
 package org.una.unaeropuertoclient.model;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,7 +23,8 @@ import org.una.unaeropuertoclient.utils.DateConverter;
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 public class UsuarioDto {
 
-    private Long id;
+    @XmlTransient
+    public Long id;
     @XmlTransient
     public SimpleStringProperty cedula;
     @XmlTransient
@@ -32,8 +32,9 @@ public class UsuarioDto {
     @XmlTransient
     public SimpleStringProperty apellidos;
     @XmlTransient
-    private SimpleStringProperty contrasenna;
-    private LocalDate fechaNacimiento;
+    public SimpleStringProperty contrasenna;
+    @XmlTransient
+    private SimpleObjectProperty<LocalDate> fechaNacimiento;
     private LocalDate fechaIngreso;
     private LocalDate fechaModificacion;
     private Boolean activo;
@@ -41,12 +42,12 @@ public class UsuarioDto {
     private List<RolUsuarioDto> rolUsuarioList;
     private AreaDto areasId;
 
-    private UsuarioDto() {
+    public UsuarioDto() {
         cedula = new SimpleStringProperty();
         nombre = new SimpleStringProperty();
         apellidos = new SimpleStringProperty();
         contrasenna = new SimpleStringProperty();
-
+        fechaNacimiento = new SimpleObjectProperty();
     }
 
     public Long getId() {
@@ -90,29 +91,28 @@ public class UsuarioDto {
     }
 
     public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
+        return fechaNacimiento.get();
+
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento.set(DateConverter.toLocalDate(fechaNacimiento));
     }
 
-    public String getFechaIngreso() {
-        Date date = Date.from(fechaIngreso.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
     }
 
-    public void setFechaIngreso(LocalDate fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
+    public void setFechaIngreso(String fechaIngreso) {
+        this.fechaIngreso = DateConverter.toLocalDate(fechaIngreso);
     }
 
-    public String getFechaModificacion() {
-        Date date = Date.from(fechaModificacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public LocalDate getFechaModificacion() {
+        return fechaModificacion;
     }
 
-    public void setFechaModificacion(LocalDate fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = DateConverter.toLocalDate(fechaModificacion);
     }
 
     public Boolean getActivo() {

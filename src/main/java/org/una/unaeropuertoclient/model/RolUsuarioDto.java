@@ -5,9 +5,7 @@
  */
 package org.una.unaeropuertoclient.model;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,12 +20,13 @@ import org.una.unaeropuertoclient.utils.DateConverter;
 public class RolUsuarioDto {
 
     private Long id;
-    private LocalDate fechaRegistro;
-    private LocalDate fechaModificacion;
+    private LocalDateTime fechaRegistro;
+    private LocalDateTime fechaModificacion;
     private Boolean activo;
     private RolDto rolesId;
 
     public RolUsuarioDto() {
+
     }
 
     public Long getId() {
@@ -38,22 +37,20 @@ public class RolUsuarioDto {
         this.id = id;
     }
 
-    public String getFechaRegistro() {
-        Date date = Date.from(fechaModificacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;              //Posible error con spring al enviar dato por lo del formato chorizo
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setFechaRegistro(String fechaRegistro) {
+        this.fechaRegistro = DateConverter.toLocalDateTime(fechaRegistro);
     }
 
-    public String getFechaModificacion() {
-        Date date = Date.from(fechaModificacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;          //Posible error con spring al enviar dato por lo del formato chorizo
     }
 
-    public void setFechaModificacion(LocalDate fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = DateConverter.toLocalDateTime(fechaModificacion);
     }
 
     public Boolean getActivo() {
