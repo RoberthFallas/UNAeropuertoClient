@@ -8,9 +8,11 @@ package org.una.unaeropuertoclient.model;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import javafx.beans.property.SimpleObjectProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.una.unaeropuertoclient.utils.DateConverter;
 
 /**
@@ -22,12 +24,18 @@ import org.una.unaeropuertoclient.utils.DateConverter;
 public class RolUsuarioDto {
 
     private Long id;
-    private LocalDate fechaRegistro;
-    private LocalDate fechaModificacion;
+    @XmlTransient
+    public SimpleObjectProperty<LocalDate> fechaRegistro;
+    @XmlTransient
+    public SimpleObjectProperty<LocalDate> fechaModificacion;
     private Boolean activo;
     private RolDto rolesId;
 
     public RolUsuarioDto() {
+        fechaModificacion = new SimpleObjectProperty();
+        fechaModificacion.set(LocalDate.now());
+        fechaRegistro = new SimpleObjectProperty();
+        fechaRegistro.set(LocalDate.now());
     }
 
     public Long getId() {
@@ -38,22 +46,23 @@ public class RolUsuarioDto {
         this.id = id;
     }
 
-    public String getFechaRegistro() {
-        Date date = Date.from(fechaModificacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public Date getFechaRegistro() {
+        Date date = Date.from(fechaRegistro.get().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        return date;
+
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro.set(fechaRegistro.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 
-    public String getFechaModificacion() {
-        Date date = Date.from(fechaModificacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public Date getFechaModificacion() {
+        Date date = Date.from(fechaRegistro.get().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        return date;
     }
 
-    public void setFechaModificacion(LocalDate fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion.set(fechaModificacion.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     }
 
     public Boolean getActivo() {
