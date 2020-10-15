@@ -12,8 +12,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import org.una.unaeropuertoclient.service.UsuarioService;
 import org.una.unaeropuertoclient.utils.FlowController;
+import org.una.unaeropuertoclient.utils.Mensaje;
 import org.una.unaeropuertoclient.utils.Respuesta;
 
 /**
@@ -54,12 +56,19 @@ public class LoginController extends Controller implements Initializable {
 
         Respuesta resp=  usuarioService.logIn(txtCedula.getText(), txtContrasenna.getText());
 
+        if(resp.getEstado()){
+            FlowController.getInstance().goMain();
+            FlowController.getInstance().goView("MenuPrincipal");
+            FlowController.getInstance().goView("MenuSuperior", "Top", null);
+            this.getStage().close();
+
+        }else{
+            new Mensaje().showModal(Alert.AlertType.WARNING, "Algo ha ocurrido", this.getStage(), resp.getMensaje());
+        }
 
 
-        FlowController.getInstance().goMain();
-        FlowController.getInstance().goView("MenuPrincipal");
-        FlowController.getInstance().goView("MenuSuperior", "Top", null);
-        this.getStage().close();
+
+
     }
 
 }

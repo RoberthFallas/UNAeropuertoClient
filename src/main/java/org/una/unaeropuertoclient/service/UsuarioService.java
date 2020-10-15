@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.una.unaeropuertoclient.utils.RequestHTTP;
 import org.una.unaeropuertoclient.model.AuthenticationRequest;
 import org.una.unaeropuertoclient.model.AuthenticationResponse;
@@ -25,14 +26,16 @@ public class UsuarioService {
 
 
 
+    Gson g = new GsonBuilder()
+            .setDateFormat("yyy-MM-dd'T'HH:mm:ss.SSSX").create();
      public Respuesta logIn(String cedula, String password) {
-         Gson g = new Gson();
+
 
          AuthenticationRequest autRiq = new AuthenticationRequest(cedula, password);
          try {
              RequestHTTP requestHTTP = new RequestHTTP();
              HttpResponse respuesta = requestHTTP.post("autenticacion/login", g.toJson(autRiq));
-             if (requestHTTP.getStatus()>200) {
+             if (requestHTTP.getStatus()!=200) {
                  if (respuesta.statusCode() == 500) {
                      return new Respuesta(false, "Parece que has introducido mal tus credenciales de acceso.", String.valueOf(requestHTTP.getStatus()));
                  }
