@@ -8,6 +8,7 @@ module org.una.unaeropuertoclient {
     requires gson;
     requires java.net.http;
     requires java.sql;
+    requires javafx.graphics;
 
 
     opens org.una.unaeropuertoclient to javafx.fxml;
