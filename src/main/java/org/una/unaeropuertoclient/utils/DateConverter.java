@@ -8,6 +8,7 @@ package org.una.unaeropuertoclient.utils;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -17,10 +18,19 @@ import java.util.Date;
  */
 public class DateConverter {
 
-    public static String convertToSpringBoot(Date fecha) {
+    public static String toSpringDate(LocalDate fecha) {
+        Date date = Date.from(fecha.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-        sdf.applyPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        String newDateString = sdf.format(fecha);
+        sdf.applyPattern("yyyy-MM-dd");
+        String newDateString = sdf.format(date);
+        return newDateString;
+    }
+
+    public static String toSpringDateTime(LocalDateTime fecha) {
+        Date date = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+        String newDateString = sdf.format(date);
         return newDateString;
     }
 

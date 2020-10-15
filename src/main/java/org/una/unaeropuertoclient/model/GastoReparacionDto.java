@@ -6,8 +6,6 @@
 package org.una.unaeropuertoclient.model;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,14 +37,6 @@ public class GastoReparacionDto {
     public SimpleStringProperty observaciones;
     private Boolean activo;
 
-//    @Setter(AccessLevel.NONE)
-//    private List<DetalleServicioDto> detalleServicioList;
-//    @Setter(AccessLevel.NONE)
-//    private AreaDto areasId;
-//    @Setter(AccessLevel.NONE)
-//    private TipoReparacionDto tiposId;
-//    @Setter(AccessLevel.NONE)
-//    private ProvedorDto provedoresId;
     public GastoReparacionDto() {
         numeroContrato = new SimpleLongProperty();
         duracion = new SimpleIntegerProperty();
@@ -63,12 +53,11 @@ public class GastoReparacionDto {
     }
 
     public String getFechaRegistro() {
-        Date date = Date.from(fechaRegistro.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDate(fechaRegistro);
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setFechaRegistro(String fechaRegistro) {
+        this.fechaRegistro = DateConverter.toLocalDate(fechaRegistro);
     }
 
     public Boolean getEstadoPago() {

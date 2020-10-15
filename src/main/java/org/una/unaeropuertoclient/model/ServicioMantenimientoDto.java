@@ -5,9 +5,7 @@
  */
 package org.una.unaeropuertoclient.model;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import javafx.beans.property.SimpleLongProperty;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,14 +23,13 @@ import org.una.unaeropuertoclient.utils.DateConverter;
 public class ServicioMantenimientoDto {
 
     private Long id;
-    private LocalDate fechaServicio;
+    private LocalDateTime fechaServicio;
     @XmlTransient
     public SimpleLongProperty numeroFactura;
     private Boolean estadoPago;
     private Boolean estaFinalizacion;
     private Boolean activo;
     private AvionDto avionesId;
-
     private TipoServicioDto tiposServiciosId;
     private List<CobroDto> cobroList;
 
@@ -49,12 +46,11 @@ public class ServicioMantenimientoDto {
     }
 
     public String getFechaServicio() {
-        Date date = Date.from(fechaServicio.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDateTime(fechaServicio);
     }
 
-    public void setFechaServicio(LocalDate fechaServicio) {
-        this.fechaServicio = fechaServicio;
+    public void setFechaServicio(String fechaServicio) {
+        this.fechaServicio = DateConverter.toLocalDateTime(fechaServicio);
     }
 
     public Long getNumeroFactura() {

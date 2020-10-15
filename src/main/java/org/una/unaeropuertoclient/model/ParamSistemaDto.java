@@ -5,10 +5,9 @@
  */
 package org.una.unaeropuertoclient.model;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +24,7 @@ import org.una.unaeropuertoclient.utils.DateConverter;
 public class ParamSistemaDto {
 
     private Long id;
-    private LocalDate vuelosHora;
+    private Short vuelosHora;
     @XmlTransient
     private SimpleIntegerProperty tiempoInactividad;
     @XmlTransient
@@ -34,13 +33,17 @@ public class ParamSistemaDto {
     public SimpleStringProperty emailAeropuerto;
     @XmlTransient
     public SimpleStringProperty nombreRepresentante;
-    private LocalDate aperturaOficina;
-    private LocalDate cierreOficina;
+    @XmlTransient
+    public SimpleObjectProperty<LocalDateTime> aperturaOficina;
+    @XmlTransient
+    public SimpleObjectProperty<LocalDateTime> cierreOficina;
 
     public ParamSistemaDto() {
         telefonoAeropuerto = new SimpleStringProperty();
         emailAeropuerto = new SimpleStringProperty();
         nombreRepresentante = new SimpleStringProperty();
+        cierreOficina = new SimpleObjectProperty<>();
+        aperturaOficina = new SimpleObjectProperty<>();
     }
 
     public Long getId() {
@@ -51,12 +54,11 @@ public class ParamSistemaDto {
         this.id = id;
     }
 
-    public String getVuelosHora() {
-        Date date = Date.from(vuelosHora.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+    public Short getVuelosHora() {
+        return vuelosHora;
     }
 
-    public void setVuelosHora(LocalDate vuelosHora) {
+    public void setVuelosHora(Short vuelosHora) {
         this.vuelosHora = vuelosHora;
     }
 
@@ -93,21 +95,19 @@ public class ParamSistemaDto {
     }
 
     public String getAperturaOficina() {
-        Date date = Date.from(aperturaOficina.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDateTime(aperturaOficina.get());
     }
 
-    public void setAperturaOficina(LocalDate aperturaOficina) {
-        this.aperturaOficina = aperturaOficina;
+    public void setAperturaOficina(String aperturaOficina) {
+        this.aperturaOficina.set(DateConverter.toLocalDateTime(aperturaOficina));
     }
 
     public String getCierreOficina() {
-        Date date = Date.from(cierreOficina.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDateTime(cierreOficina.get());
     }
 
-    public void setCierreOficina(LocalDate cierreOficina) {
-        this.cierreOficina = cierreOficina;
+    public void setCierreOficina(String cierreOficina) {
+        this.cierreOficina.set(DateConverter.toLocalDateTime(cierreOficina));
     }
 
 }

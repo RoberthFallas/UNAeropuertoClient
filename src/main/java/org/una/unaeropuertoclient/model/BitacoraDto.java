@@ -5,9 +5,7 @@
  */
 package org.una.unaeropuertoclient.model;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +23,7 @@ public class BitacoraDto {
 
     private Long id;
     @XmlTransient
-    public LocalDate fechaModificacion;
+    public LocalDateTime fechaModificacion;
     @XmlTransient
     public SimpleStringProperty tipoCambio;
 //    @Setter(AccessLevel.NONE)
@@ -45,12 +43,11 @@ public class BitacoraDto {
     }
 
     public String getFechaModificacion() {
-        Date date = Date.from(fechaModificacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDateTime(fechaModificacion);
     }
 
-    public void setFechaModificacion(LocalDate fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = DateConverter.toLocalDateTime(fechaModificacion);
     }
 
     public String getTipoCambio() {

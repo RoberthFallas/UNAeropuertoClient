@@ -5,9 +5,7 @@
  */
 package org.una.unaeropuertoclient.model;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,8 +24,8 @@ public class VueloDto {
     private Long id;
     @XmlTransient
     public SimpleStringProperty nombreVuelo;
-    private LocalDate horaSalida;
-    private LocalDate horaLlegada;
+    private LocalDateTime horaSalida;
+    private LocalDateTime horaLlegada;
     private Byte estado;
     private AvionDto avionesId;
     private PistaDto pistasId;
@@ -57,21 +55,19 @@ public class VueloDto {
     }
 
     public String getHoraSalida() {
-        Date date = Date.from(horaSalida.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDateTime(horaSalida);
     }
 
-    public void setHoraSalida(LocalDate horaSalida) {
-        this.horaSalida = horaSalida;
+    public void setHoraSalida(String horaSalida) {
+        this.horaSalida = DateConverter.toLocalDateTime(horaSalida);
     }
 
     public String getHoraLlegada() {
-        Date date = Date.from(horaLlegada.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        return DateConverter.convertToSpringBoot(date);
+        return DateConverter.toSpringDateTime(horaLlegada);
     }
 
-    public void setHoraLlegada(LocalDate horaLlegada) {
-        this.horaLlegada = horaLlegada;
+    public void setHoraLlegada(String horaLlegada) {
+        this.horaLlegada = DateConverter.toLocalDateTime(horaLlegada);
     }
 
     public Byte getEstado() {
