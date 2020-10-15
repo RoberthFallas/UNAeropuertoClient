@@ -38,7 +38,7 @@ public class RequestHTTP {
             request(url);
             requestBuilder.POST(HttpRequest.BodyPublishers.ofString(body));
             HttpRequest request = requestBuilder.build();
-            respuesta = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.respuesta = client.send(request, HttpResponse.BodyHandlers.ofString());
           
             return respuesta;
 
@@ -57,7 +57,7 @@ public class RequestHTTP {
             request(url);
             requestBuilder.PUT(HttpRequest.BodyPublishers.ofString(body));
             HttpRequest request = requestBuilder.build();
-            respuesta = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.respuesta = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             return respuesta;
 
@@ -77,7 +77,7 @@ public class RequestHTTP {
             request(url);
             requestBuilder.GET();
             HttpRequest request = requestBuilder.build();
-            respuesta = client.send(request, HttpResponse.BodyHandlers.ofString());
+            this.respuesta = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             return respuesta;
 
