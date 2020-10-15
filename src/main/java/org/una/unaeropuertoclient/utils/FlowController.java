@@ -78,6 +78,7 @@ public class FlowController {
         getInstance();
         this.mainStage = stage;
         this.idioma = idioma;
+        mainStage.setMinWidth(633d);
     }
 
     @SuppressWarnings({"DoubleCheckedLocking", "static-access", "UseSpecificCatch"})
@@ -107,7 +108,6 @@ public class FlowController {
             this.mainStage.show();
             //this.mainStage.getIcons().add(new Image("clinicauna/resources/logo01.png"));
             this.mainStage.setTitle("UNAeropuerto");
-            //this.mainStage.setMaximized(true);
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE, "Error inicializando la vista base.", ex);
         }
@@ -140,19 +140,21 @@ public class FlowController {
             stage = this.mainStage;
             controller.setStage(stage);
         }
-        if (!viewed.isEmpty()) {
-            if (!viewed.peek().equals(viewName)) {
-                viewed.push(viewName);
-            }
-        } else {
-            viewed.push(viewName);
-        }
         switch (location) {
             case "Center":
                 ((AnchorPane) ((BorderPane) stage.getScene().getRoot()).getCenter()).getChildren().clear();
                 ((AnchorPane) ((BorderPane) stage.getScene().getRoot()).getCenter()).getChildren().add(loader.getRoot());
+                if (!viewed.isEmpty()) {
+                    if (!viewed.peek().equals(viewName)) {
+                        viewed.push(viewName);
+                    }
+                } else {
+                    viewed.push(viewName);
+                }
                 break;
             case "Top":
+                ((AnchorPane) ((BorderPane) stage.getScene().getRoot()).getTop()).getChildren().clear();
+                ((AnchorPane) ((BorderPane) stage.getScene().getRoot()).getTop()).getChildren().add(loader.getRoot());
                 break;
             case "Bottom":
                 break;
@@ -205,7 +207,7 @@ public class FlowController {
         Stage stage = new Stage();
         //stage.setMaximized(true);
         //stage.getIcons().add(new Image("clinicauna/resources/logo01.png"));
-        stage.setTitle("Lab01");
+        stage.setTitle("UNAeropuerto");
         stage.setResizable(resizable);
         stage.setOnHidden((WindowEvent event) -> {
             controller.getStage().getScene().setRoot(new Pane());

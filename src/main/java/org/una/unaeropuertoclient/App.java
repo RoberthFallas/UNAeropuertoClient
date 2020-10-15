@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import org.una.unaeropuertoclient.utils.AppContext;
 import org.una.unaeropuertoclient.utils.FlowController;
 
 /**
@@ -16,8 +17,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        AppContext.getInstance();
         FlowController.getInstance().InitializeFlow(stage, null);
-        FlowController.getInstance().goMain();
+        FlowController.getInstance().goViewInWindow("Login", Boolean.FALSE);
     }
 
     public static void main(String[] args) {
